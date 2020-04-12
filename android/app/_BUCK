@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.custompcapp",
+    package = "com.sboh1214.custompcapp.android",
 )
 
 android_resource(
     name = "res",
-    package = "com.custompcapp",
+    package = "com.sboh1214.custompcapp.android",
     res = "src/main/res",
 )
 

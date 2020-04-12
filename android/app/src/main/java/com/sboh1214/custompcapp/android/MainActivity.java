@@ -1,4 +1,4 @@
-package com.custompcapp;
+package com.sboh1214.custompcapp.android;
 
 import com.facebook.react.ReactActivity;
 
