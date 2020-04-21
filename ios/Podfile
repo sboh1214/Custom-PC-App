@@ -94,12 +94,3 @@ target 'CustomPCApp' do
     flipper_post_install(installer)
   end
 end
-
-target 'CustomPCApp-tvOS' do
-  # Pods for CustomPCApp-tvOS
-
-  target 'CustomPCApp-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end
