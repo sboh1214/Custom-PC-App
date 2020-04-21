@@ -1,0 +1,45 @@
+name: Android
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-android:
+    name: Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install npm dependencies
+        run: |
+          npm install
+      - name: Install NDK
+        run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;20.0.5594570" --sdk_root=${ANDROID_SDK_ROOT}
+      - name: Build Android Release APK
+        run: |
+          cd android && ./gradlew assembleRelease
+        env:
+          ANDROID_KEYSTORE_PASSWORD: '${{ secrets.ANDROID_KEYSTORE_PASSWORD }}'
+          ANDROID_KEYSTORE_ALIAS: 'upload'
+          ANDROID_KEY_PASSWORD: '${{ secrets.ANDROID_KEY_PASSWORD }}'
+      - name: Build Android Release Bundle
+        run: |
+          cd android && ./gradlew bundleRelease
+        env:
+          ANDROID_KEYSTORE_PASSWORD: '${{ secrets.ANDROID_KEYSTORE_PASSWORD }}'
+          ANDROID_KEYSTORE_ALIAS: 'upload'
+          ANDROID_KEY_PASSWORD: '${{ secrets.ANDROID_KEY_PASSWORD }}'
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.aab
+          path: android/app/build/outputs/bundle/release
+      - name: Upload Android Release to Play Store
+        uses: r0adkll/upload-google-play@v1.0.4
+        with:
+          serviceAccountJsonPlainText: '${{ secrets.SERVICE_ACCOUNT_JSON }}'
+          packageName: com.sboh1214.custompcapp.android
+          releaseFile: android/app/build/outputs/bundle/release/app-release.aab
+          track: alpha
