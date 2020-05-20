@@ -33,9 +33,15 @@ export default function SearchScreen(): JSX.Element {
     setHeaderTitle(webViewState?.title ?? '검색');
   }, [webViewState]);
 
-  const handleBack = () => {
+  const onPressBack = () => {
     if (webViewState?.canGoBack === true) {
       webView.goBack();
+    }
+  };
+
+  const onPressFoward = () => {
+    if (webViewState?.canGoForward === true) {
+      webView.goForward();
     }
   };
 
@@ -43,14 +49,18 @@ export default function SearchScreen(): JSX.Element {
     <Container>
       <Header>
         <Left>
-          <Button transparent onPress={handleBack}>
+          <Button transparent onPress={onPressBack}>
             <Icon name="arrow-back" />
           </Button>
         </Left>
         <Body>
           <Text>{headerTitle}</Text>
         </Body>
-        <Right />
+        <Right>
+          <Button transparent onPress={onPressFoward}>
+            <Icon name="arrow-forward" />
+          </Button>
+        </Right>
       </Header>
       <Content contentContainerStyle={{flex: 1}}>
         <WebView
