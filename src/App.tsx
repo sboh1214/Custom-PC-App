@@ -1,13 +1,11 @@
-import 'react-native-get-random-values';
-
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import SearchScreen from './src/screens/SearchScreen';
-import QuickEstimateScreen from './src/screens/QuickEstimateScreen';
-import BuildEstimateScreen from './src/screens/BuildEstimateScreen';
-import LibraryScreen from './src/screens/LibraryScreen';
+import SearchScreen from 'screens/SearchScreen';
+import QuickEstimateScreen from 'screens/QuickEstimateScreen';
+import BuildEstimateScreen from 'screens/BuildEstimateScreen';
+import LibraryScreen from 'screens/LibraryScreen';
 
 const Tab = createBottomTabNavigator();
 

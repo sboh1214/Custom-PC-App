@@ -1,12 +1,40 @@
 import * as React from 'react';
 import * as NB from 'native-base';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {PartList} from 'utils/parts';
+import CpuItem from 'components/parts/CpuItem';
+
+const HOST = 'http://10.140.82.117:8000/';
 
 export default function BuildEstimateScreen() {
-  const [part, setPart] = useState<string>('key0');
+  const [part, setPart] = useState<string>('cpu');
+  const [list, setList] = useState<JSX.Element>();
 
   const onPressReset = () => {};
   const onPressComplete = () => {};
+
+  useEffect(() => {
+    console.log('fetch');
+    fetch(HOST + 'quotemaker/parts/' + part).then((res) => {
+      console.log(res);
+      res
+        .json()
+        .then((json: PartList) => {
+          console.log(json);
+          setList(
+            <NB.List
+              dataArray={json}
+              renderItem={(item) => {
+                return <CpuItem cpu={item} />;
+              }}
+            />,
+          );
+        })
+        .catch((netErr) => {
+          console.log(netErr);
+        });
+    });
+  }, [part]);
 
   return (
     <NB.Container>
@@ -25,9 +53,7 @@ export default function BuildEstimateScreen() {
           </NB.Button>
         </NB.Right>
       </NB.Header>
-      <NB.Content>
-        <NB.List />
-      </NB.Content>
+      <NB.Content>{list}</NB.Content>
       <NB.Footer>
         <NB.Picker
           note

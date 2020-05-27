@@ -73,3 +73,5 @@ export type PSU = {
   cert: string; //80PLUS Certification
   price: number;
 };
+
+export type PartList = Array<CPU | MB | RAM | VGA | SSD | HDD | CASE | PSU>;
