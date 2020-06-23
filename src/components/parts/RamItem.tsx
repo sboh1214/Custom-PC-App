@@ -1,4 +1,4 @@
-import {RAM} from 'src/utils/parts';
+import {RAM} from 'utils/parts';
 import * as NB from 'native-base';
 import React from 'react';
 

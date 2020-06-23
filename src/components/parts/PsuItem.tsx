@@ -1,4 +1,4 @@
-import {PSU} from 'src/utils/parts';
+import {PSU} from 'utils/parts';
 import * as NB from 'native-base';
 import React from 'react';
 

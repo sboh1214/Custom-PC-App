@@ -1,4 +1,4 @@
-import {HDD} from 'src/utils/parts';
+import {HDD} from 'utils/parts';
 import * as NB from 'native-base';
 import React from 'react';
 
