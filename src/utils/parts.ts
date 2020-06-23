@@ -10,6 +10,7 @@ export enum PART {
 }
 
 export type CPU = {
+  name: string;
   maker: string;
   gen: string;
   socket: string;

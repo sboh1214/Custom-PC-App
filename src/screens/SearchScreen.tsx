@@ -1,16 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {
-  Container,
-  Header,
-  Content,
-  Left,
-  Button,
-  Icon,
-  Body,
-  Text,
-  Right,
-} from 'native-base';
+import * as NB from 'native-base';
 import {WebView} from 'react-native-webview';
+import {headerStyles} from 'utils/styles';
 
 type WebViewState = {
   url?: string;
@@ -39,36 +30,36 @@ export default function SearchScreen(): JSX.Element {
     }
   };
 
-  const onPressFoward = () => {
+  const onPressForward = () => {
     if (webViewState?.canGoForward === true) {
       webView.goForward();
     }
   };
 
   return (
-    <Container>
-      <Header>
-        <Left>
-          <Button transparent onPress={onPressBack}>
-            <Icon name="arrow-back" />
-          </Button>
-        </Left>
-        <Body>
-          <Text>{headerTitle}</Text>
-        </Body>
-        <Right>
-          <Button transparent onPress={onPressFoward}>
-            <Icon name="arrow-forward" />
-          </Button>
-        </Right>
-      </Header>
-      <Content contentContainerStyle={{flex: 1}}>
+    <NB.Container>
+      <NB.Header>
+        <NB.Left style={headerStyles.left}>
+          <NB.Button transparent onPress={onPressBack}>
+            <NB.Icon name="arrow-back" />
+          </NB.Button>
+        </NB.Left>
+        <NB.Body style={headerStyles.body}>
+          <NB.Text>{headerTitle}</NB.Text>
+        </NB.Body>
+        <NB.Right style={headerStyles.right}>
+          <NB.Button transparent onPress={onPressForward}>
+            <NB.Icon name="arrow-forward" />
+          </NB.Button>
+        </NB.Right>
+      </NB.Header>
+      <NB.Content contentContainerStyle={{flex: 1}}>
         <WebView
           source={{uri: 'http://m.danawa.com'}}
           onNavigationStateChange={handleWebView}
           ref={(ref) => (webView = ref)}
         />
-      </Content>
-    </Container>
+      </NB.Content>
+    </NB.Container>
   );
 }

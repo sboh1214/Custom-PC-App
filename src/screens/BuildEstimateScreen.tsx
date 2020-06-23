@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as NB from 'native-base';
 import {useState, useEffect} from 'react';
-import {PartList} from 'utils/parts';
+import {PartList, PART} from 'utils/parts';
 import CpuItem from 'components/parts/CpuItem';
+import CaseItem from 'components/parts/CaseItem';
 
 const HOST = 'http://10.140.82.117:8000/';
 
@@ -25,7 +26,14 @@ export default function BuildEstimateScreen() {
             <NB.List
               dataArray={json}
               renderItem={(item) => {
-                return <CpuItem cpu={item} />;
+                switch (item) {
+                  case typeof item === typeof PART.CPU:
+                    return <CpuItem cpu={item} />;
+                  case typeof item === typeof PART.CASE:
+                    return <CaseItem caseItem={item} />;
+                  default:
+                    return <NB.Text>Error</NB.Text>;
+                }
               }}
             />,
           );
