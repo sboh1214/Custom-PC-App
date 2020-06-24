@@ -1,17 +1,26 @@
-import {CPU} from 'utils/parts';
-import * as NB from 'native-base';
 import React from 'react';
+import {Text} from 'react-native';
+import PartItem from 'components/PartItem';
 
-export default function CpuItem(cpu: CPU): JSX.Element {
+export default function CpuItem({cpu}) {
+  let picture;
+  switch (cpu.maker) {
+    case '인텔':
+      picture = require('img/intel.png');
+      break;
+    case 'AMD':
+      picture = require('img/amd.png');
+      break;
+    default:
+      break;
+  }
+
   return (
-    <NB.ListItem>
-      <NB.Image source={require('../../img/intel.png')} />
-      <NB.Text>{cpu.name}</NB.Text>
-      <NB.Text>Socket : {cpu.socket}</NB.Text>
-      <NB.Text>
-        {cpu.core} Core {cpu.thread} Thread
-      </NB.Text>
-      <NB.Text>{cpu.clock} GHz</NB.Text>
-    </NB.ListItem>
+    <PartItem title={cpu.title} price={cpu.price} picture={picture}>
+      <Text>{cpu.maker}</Text>
+      <Text>{`Socket : ${cpu.socket}`}</Text>
+      <Text>{`${cpu.core} Core ${cpu.thread} Thread`}</Text>
+      <Text>{`${cpu.clock} GHz`}</Text>
+    </PartItem>
   );
 }

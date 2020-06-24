@@ -1,11 +1,11 @@
-import * as NB from 'native-base';
 import React from 'react';
 import {CASE} from 'utils/parts';
+import * as NB from 'native-base';
 
-export default function CaseItem(caseConst: CASE): JSX.Element {
+export default function CaseItem(caseItem: CASE): JSX.Element {
   return (
     <NB.ListItem>
-      <NB.Text>{caseConst.board}</NB.Text>
+      <NB.Text>{caseItem.price}</NB.Text>
     </NB.ListItem>
   );
 }

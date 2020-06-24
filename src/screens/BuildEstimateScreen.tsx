@@ -1,15 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import * as NB from 'native-base';
 import {useState, useEffect} from 'react';
 import {PartList, PART} from 'utils/parts';
 import CpuItem from 'components/parts/CpuItem';
 import CaseItem from 'components/parts/CaseItem';
+import MbItem from 'components/parts/MbItem';
 
 const HOST = 'http://10.140.82.117:8000/';
 
 export default function BuildEstimateScreen() {
   const [part, setPart] = useState<string>('cpu');
-  const [list, setList] = useState<JSX.Element>();
+  const [list, setList] = useState<Array<PART>>();
 
   const onPressReset = () => {};
   const onPressComplete = () => {};
@@ -21,22 +22,7 @@ export default function BuildEstimateScreen() {
       res
         .json()
         .then((json: PartList) => {
-          console.log(json);
-          setList(
-            <NB.List
-              dataArray={json}
-              renderItem={(item) => {
-                switch (item) {
-                  case typeof item === typeof PART.CPU:
-                    return <CpuItem cpu={item} />;
-                  case typeof item === typeof PART.CASE:
-                    return <CaseItem caseItem={item} />;
-                  default:
-                    return <NB.Text>Error</NB.Text>;
-                }
-              }}
-            />,
-          );
+          setList(json);
         })
         .catch((netErr) => {
           console.log(netErr);
@@ -61,7 +47,23 @@ export default function BuildEstimateScreen() {
           </NB.Button>
         </NB.Right>
       </NB.Header>
-      <NB.Content>{list}</NB.Content>
+      <NB.Content>
+        <NB.List>
+          {list?.map((item) => {
+            console.log(item);
+            switch (part) {
+              case PART.CPU:
+                return <CpuItem cpu={item} />;
+              case PART.MB:
+                return <MbItem mb={item} />;
+              case PART.CASE:
+                return <CaseItem caseItem={item} />;
+              default:
+                return <NB.Text>Error</NB.Text>;
+            }
+          })}
+        </NB.List>
+      </NB.Content>
       <NB.Footer>
         <NB.Picker
           note
