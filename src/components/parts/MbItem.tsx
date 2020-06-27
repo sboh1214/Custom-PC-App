@@ -7,7 +7,7 @@ export default function MbItem({mb}) {
     <PartItem
       title={mb.name}
       price={mb.price}
-      picture={require('img/intel.png')}>
+      picture={require('img/cpu/intel.png')}>
       <Text>{mb.name}</Text>
     </PartItem>
   );

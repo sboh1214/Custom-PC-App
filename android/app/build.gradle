@@ -132,8 +132,8 @@ android {
         applicationId "com.sboh1214.custompcapp.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "0.3.1"
+        versionCode 14
+        versionName "0.3.2"
     }
     splits {
         abi {

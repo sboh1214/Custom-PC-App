@@ -5,8 +5,9 @@ import {PartList, PART} from 'utils/parts';
 import CpuItem from 'components/parts/CpuItem';
 import CaseItem from 'components/parts/CaseItem';
 import MbItem from 'components/parts/MbItem';
+import RamItem from 'components/parts/RamItem';
 
-const HOST = 'http://10.140.82.117:8000/';
+const HOST = 'http://0.0.0.0:8000/';
 
 export default function BuildEstimateScreen() {
   const [part, setPart] = useState<string>('cpu');
@@ -16,9 +17,7 @@ export default function BuildEstimateScreen() {
   const onPressComplete = () => {};
 
   useEffect(() => {
-    console.log('fetch');
     fetch(HOST + 'quotemaker/parts/' + part).then((res) => {
-      console.log(res);
       res
         .json()
         .then((json: PartList) => {
@@ -50,7 +49,6 @@ export default function BuildEstimateScreen() {
       <NB.Content>
         <NB.List>
           {list?.map((item) => {
-            console.log(item);
             switch (part) {
               case PART.CPU:
                 return <CpuItem cpu={item} />;
@@ -58,6 +56,8 @@ export default function BuildEstimateScreen() {
                 return <MbItem mb={item} />;
               case PART.CASE:
                 return <CaseItem caseItem={item} />;
+              case PART.RAM:
+                return <RamItem ram={item} />;
               default:
                 return <NB.Text>Error</NB.Text>;
             }

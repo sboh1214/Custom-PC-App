@@ -6,10 +6,10 @@ export default function CpuItem({cpu}) {
   let picture;
   switch (cpu.maker) {
     case '인텔':
-      picture = require('img/intel.png');
+      picture = require('img/cpu/intel.png');
       break;
     case 'AMD':
-      picture = require('img/amd.png');
+      picture = require('img/cpu/amd.png');
       break;
     default:
       break;

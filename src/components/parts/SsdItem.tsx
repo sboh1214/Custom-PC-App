@@ -1,11 +1,15 @@
 import {SSD} from 'utils/parts';
-import * as NB from 'native-base';
 import React from 'react';
+import PartItem from 'components/PartItem';
+import {Text} from 'react-native';
 
 export default function CpuItem(ssd: SSD): JSX.Element {
   return (
-    <NB.ListItem>
-      <NB.Text>{ssd.price}</NB.Text>
-    </NB.ListItem>
+    <PartItem
+      title={'SSD'}
+      price={ssd.price}
+      picture={require('img/cpu/intel.png')}>
+      <Text>Hello</Text>
+    </PartItem>
   );
 }

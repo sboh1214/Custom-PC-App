@@ -1,11 +1,15 @@
 import {HDD} from 'utils/parts';
-import * as NB from 'native-base';
 import React from 'react';
+import PartItem from 'components/PartItem';
+import {Text} from 'react-native';
 
 export default function HddItem(hdd: HDD): JSX.Element {
   return (
-    <NB.ListItem>
-      <NB.Text>{hdd.price}</NB.Text>
-    </NB.ListItem>
+    <PartItem
+      title={'HDD'}
+      price={hdd.price}
+      picture={require('img/cpu/intel.png')}>
+      <Text>Hello</Text>
+    </PartItem>
   );
 }
