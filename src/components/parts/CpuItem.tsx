@@ -16,7 +16,7 @@ export default function CpuItem({cpu}) {
   }
 
   return (
-    <PartItem title={cpu.title} price={cpu.price} picture={picture}>
+    <PartItem title={cpu.name} price={cpu.price} picture={picture}>
       <Text>{cpu.maker}</Text>
       <Text>{`Socket : ${cpu.socket}`}</Text>
       <Text>{`${cpu.core} Core ${cpu.thread} Thread`}</Text>
