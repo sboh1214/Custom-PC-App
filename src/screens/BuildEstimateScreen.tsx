@@ -1,31 +1,21 @@
 import React from 'react';
 import * as NB from 'native-base';
 import {useState, useEffect} from 'react';
-import {PartList, PART} from 'utils/parts';
-import CpuItem from 'components/parts/CpuItem';
-import CaseItem from 'components/parts/CaseItem';
-import MbItem from 'components/parts/MbItem';
-import RamItem from 'components/parts/RamItem';
-
-const HOST = 'http://0.0.0.0:8000/';
+import {PART, PART_TYPE} from 'utils/parts';
+import {getParts} from 'utils/server';
+import {FlatList} from 'react-native';
+import PartItem from 'components/PartItem';
 
 export default function BuildEstimateScreen() {
-  const [part, setPart] = useState<string>('cpu');
+  const [part, setPart] = useState<PART_TYPE>(PART_TYPE.CPU);
   const [list, setList] = useState<Array<PART>>();
 
   const onPressReset = () => {};
   const onPressComplete = () => {};
 
   useEffect(() => {
-    fetch(HOST + 'quotemaker/parts/' + part).then((res) => {
-      res
-        .json()
-        .then((json: PartList) => {
-          setList(json);
-        })
-        .catch((netErr) => {
-          console.log(netErr);
-        });
+    getParts(part).then((newList) => {
+      setList(newList);
     });
   }, [part]);
 
@@ -46,24 +36,12 @@ export default function BuildEstimateScreen() {
           </NB.Button>
         </NB.Right>
       </NB.Header>
-      <NB.Content>
-        <NB.List>
-          {list?.map((item) => {
-            switch (part) {
-              case PART.CPU:
-                return <CpuItem cpu={item} />;
-              case PART.MB:
-                return <MbItem mb={item} />;
-              case PART.CASE:
-                return <CaseItem caseItem={item} />;
-              case PART.RAM:
-                return <RamItem ram={item} />;
-              default:
-                return <NB.Text>Error</NB.Text>;
-            }
-          })}
-        </NB.List>
-      </NB.Content>
+      <FlatList
+        data={list}
+        renderItem={({item}) => {
+          return <PartItem part={item} partType={part} onClick={() => {}} />;
+        }}
+      />
       <NB.Footer>
         <NB.Picker
           note

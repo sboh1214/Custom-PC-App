@@ -1,4 +1,4 @@
-export enum PART {
+export enum PART_TYPE {
   CPU = 'cpu',
   MB = 'mb',
   RAM = 'ram',
@@ -9,35 +9,49 @@ export enum PART {
   PSU = 'psu',
 }
 
-export type CPU = {
+export type PartList = Array<PART>;
+
+export type PART = CPU | MB | RAM | VGA | SSD | HDD | CASE | PSU;
+
+export type CPU = CPU_ONLY & PART_BASE;
+export type MB = MB_ONLY & PART_BASE;
+export type RAM = RAM_ONLY & PART_BASE;
+export type VGA = VGA_ONLY & PART_BASE;
+export type SSD = SSD_ONLY & PART_BASE;
+export type HDD = HDD_ONLY & PART_BASE;
+export type CASE = CASE_ONLY & PART_BASE;
+export type PSU = PSU_ONLY & PART_BASE;
+
+type PART_BASE = {
+  pk: number;
   name: string;
   maker: string;
+  url: string;
+  image: string;
+  price: number;
+};
+
+type CPU_ONLY = {
   gen: string;
   socket: string;
   core: number;
   thread: number;
   clock: number;
-  price: number;
 };
 
-export type MB = {
-  maker: string;
+type MB_ONLY = {
   socket: string;
   chipset: string;
   form: string; //ATX
-  price: number;
 };
 
-export type RAM = {
-  maker: string;
+type RAM_ONLY = {
   gen: string;
   capacity: number;
   clock: number;
-  price: number;
 };
 
-export type VGA = {
-  maker: string;
+type VGA_ONLY = {
   chipmaker: string; //nvidia, amd
   chipset: string;
   memcap: number;
@@ -45,34 +59,24 @@ export type VGA = {
   price: number;
 };
 
-export type SSD = {
-  maker: string;
+export type SSD_ONLY = {
   nvme: boolean;
   capacity: number;
   memtype: string;
-  price: number;
 };
 
-export type HDD = {
-  maker: string;
+export type HDD_ONLY = {
   capacity: number;
   rotspeed: string;
-  price: number;
 };
 
-export type CASE = {
-  maker: string;
+export type CASE_ONLY = {
   size: string;
   board: string;
   vgalen: number;
-  price: number;
 };
 
-export type PSU = {
-  maker: string;
+export type PSU_ONLY = {
   capacity: number;
   cert: string; //80PLUS Certification
-  price: number;
 };
-
-export type PartList = Array<CPU | MB | RAM | VGA | SSD | HDD | CASE | PSU>;
