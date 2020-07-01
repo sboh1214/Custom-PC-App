@@ -72,8 +72,10 @@ export type HDD_ONLY = {
 
 export type CASE_ONLY = {
   size: string;
-  board: string;
-  vgalen: number;
+  atx: boolean;
+  m_atx: boolean;
+  m_itx: boolean;
+  vga_len: number;
 };
 
 export type PSU_ONLY = {

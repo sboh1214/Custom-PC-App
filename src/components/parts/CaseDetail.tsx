@@ -10,8 +10,10 @@ export default function CaseDetail({caseItem}: CaseDetailType) {
   return (
     <View>
       <Text>{caseItem.size}</Text>
-      <Text>{caseItem.board}</Text>
-      <Text>{caseItem.vgalen}mm</Text>
+      <Text>{caseItem.atx ? 'ATX' : ''}</Text>
+      <Text>{caseItem.m_atx ? 'Micro-ATX' : ''}</Text>
+      <Text>{caseItem.m_itx ? 'Mini-ITX' : ''}</Text>
+      <Text>그래픽카드 장착 가능 길이:{caseItem.vga_len}mm</Text>
     </View>
   );
 }
