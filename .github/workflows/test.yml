@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run Jest Test with Coverage
+        run: npm run coverage
+      - name: Upload to CodeCov
+        uses: codecov/codecov-action@v1.0.7
+        with:
+          token: ${{ secrets.CODECOV_UPLOAD_TOKEN }}
+          file: coverage/clover.xml
