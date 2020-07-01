@@ -31,11 +31,6 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: '${{ secrets.ANDROID_KEYSTORE_PASSWORD }}'
           ANDROID_KEYSTORE_ALIAS: 'upload'
           ANDROID_KEY_PASSWORD: '${{ secrets.ANDROID_KEY_PASSWORD }}'
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: app-release.apk
-          path: android/app/build/outputs/apk/release
       - name: Upload Android Release to Play Store
         uses: r0adkll/upload-google-play@v1.0.4
         with:
