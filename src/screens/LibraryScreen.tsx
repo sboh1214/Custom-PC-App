@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import * as NB from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import {FlatList, View} from 'react-native';
 
 type User = {
   email: string;
@@ -35,17 +35,13 @@ export default function LibraryScreen() {
   }, [list]);
 
   return (
-    <NB.Container>
-      <NB.Header>
-        <NB.Left />
-        <NB.Body>
-          <NB.Title>보관함</NB.Title>
-        </NB.Body>
-        <NB.Right />
-      </NB.Header>
-      <NB.Content>
-        <NB.List />
-      </NB.Content>
-    </NB.Container>
+    <View>
+      <FlatList
+        data={list}
+        renderItem={() => {
+          return <View />;
+        }}
+      />
+    </View>
   );
 }

@@ -1,8 +1,5 @@
-/**
- * @format
- */
-
+import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
-import App from 'App';
+import CustomPCApp from 'App';
 
-AppRegistry.registerComponent('CustomPCApp', () => App);
+AppRegistry.registerComponent('CustomPCApp', () => CustomPCApp);

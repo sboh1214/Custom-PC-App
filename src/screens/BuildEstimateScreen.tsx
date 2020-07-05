@@ -1,66 +1,105 @@
-import React from 'react';
-import * as NB from 'native-base';
+import React, {useLayoutEffect} from 'react';
 import {useState, useEffect} from 'react';
 import {PART, PART_TYPE} from 'utils/parts';
 import {getParts} from 'utils/server';
-import {FlatList} from 'react-native';
+import {FlatList, TextInput, RefreshControl, View, Button} from 'react-native';
 import PartItem from 'components/PartItem';
+import {Picker} from '@react-native-community/picker';
 
-export default function BuildEstimateScreen() {
+export default function BuildEstimateScreen({navigation}) {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [part, setPart] = useState<PART_TYPE>(PART_TYPE.CPU);
   const [list, setList] = useState<Array<PART>>();
+  const [filteredList, setFilteredList] = useState<Array<PART>>();
+  const [query, setQuery] = useState<string>('');
 
   const onPressReset = () => {};
   const onPressComplete = () => {};
 
-  useEffect(() => {
-    getParts(part).then((newList) => {
-      setList(newList);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: '견적 제작',
+      headerRight: () => (
+        <Button onPress={() => {}} title="Info" color="#fff" />
+      ),
     });
-  }, [part]);
+  }, [navigation]);
+
+  const fetchParts = () => {
+    getParts(part)
+      .then((newList) => {
+        setList(newList);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchParts();
+  }, [part, isLoading]);
+
+  useEffect(() => {
+    if (query === '') {
+      setFilteredList(list);
+    } else {
+      setFilteredList(
+        list?.filter((value) => {
+          return value.name.includes(query);
+        }),
+      );
+    }
+  }, [list, query]);
 
   return (
-    <NB.Container>
-      <NB.Header>
-        <NB.Left>
-          <NB.Button transparent onPress={onPressReset}>
-            <NB.Text>초기화</NB.Text>
-          </NB.Button>
-        </NB.Left>
-        <NB.Body>
-          <NB.Title>견적 제작</NB.Title>
-        </NB.Body>
-        <NB.Right>
-          <NB.Button transparent onPress={onPressComplete}>
-            <NB.Text>완료</NB.Text>
-          </NB.Button>
-        </NB.Right>
-      </NB.Header>
+    <View style={{flex: 1}}>
       <FlatList
-        data={list}
+        style={{flex: 1}}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={() => {
+              fetchParts();
+            }}
+          />
+        }
+        data={filteredList}
+        ListHeaderComponent={() => {
+          return (
+            <TextInput
+              style={{
+                height: 40,
+                borderColor: 'gray',
+                borderWidth: 1,
+                borderRadius: 24,
+              }}
+              placeholder="Search"
+              onChangeText={(text) => setQuery(text)}
+              value={query}
+            />
+          );
+        }}
         renderItem={({item}) => {
           return <PartItem part={item} partType={part} onClick={() => {}} />;
         }}
       />
-      <NB.Footer>
-        <NB.Picker
-          note
-          mode="dropdown"
-          style={{width: 120}}
-          selectedValue={part}
-          onValueChange={(newValue) => {
-            setPart(newValue);
-          }}>
-          <NB.Picker.Item label="CPU" value="cpu" />
-          <NB.Picker.Item label="마더보드" value="mb" />
-          <NB.Picker.Item label="RAM" value="ram" />
-          <NB.Picker.Item label="그래픽 카드" value="vga" />
-          <NB.Picker.Item label="SSD" value="ssd" />
-          <NB.Picker.Item label="HDD" value="hdd" />
-          <NB.Picker.Item label="CASE" value="case" />
-          <NB.Picker.Item label="PSU" value="psu" />
-        </NB.Picker>
-      </NB.Footer>
-    </NB.Container>
+      <Picker
+        mode="dropdown"
+        style={{width: 120, flex: 0}}
+        selectedValue={part}
+        onValueChange={(newValue) => {
+          setPart(newValue);
+        }}>
+        <Picker.Item label="CPU" value="cpu" />
+        <Picker.Item label="마더보드" value="mb" />
+        <Picker.Item label="RAM" value="ram" />
+        <Picker.Item label="그래픽 카드" value="vga" />
+        <Picker.Item label="SSD" value="ssd" />
+        <Picker.Item label="HDD" value="hdd" />
+        <Picker.Item label="CASE" value="case" />
+        <Picker.Item label="PSU" value="psu" />
+      </Picker>
+    </View>
   );
 }
