@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableHighlight} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableHighlight,
+  ActivityIndicator,
+} from 'react-native';
 import {
   PART,
   CPU,
@@ -22,7 +29,7 @@ import CaseDetail from './parts/CaseDetail';
 import PsuDetail from './parts/PsuDetail';
 
 type PartItemProps = {
-  part: PART;
+  part?: PART;
   partType: PART_TYPE;
   onClick: () => any;
 };
@@ -78,33 +85,37 @@ export default function PartItem({part, partType, onClick}: PartItemProps) {
       break;
   }
 
-  return (
-    <TouchableHighlight
-      style={styles.card}
-      activeOpacity={0.6}
-      underlayColor="#DDDDDD"
-      onPress={() => {
-        onClick();
-      }}>
-      <View style={styles.content}>
-        <Image style={styles.image} source={{uri: part.image}} />
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <View>
-              <Text style={styles.titleText}>{part.name}</Text>
+  if (part) {
+    return (
+      <TouchableHighlight
+        style={styles.card}
+        activeOpacity={0.6}
+        underlayColor="#DDDDDD"
+        onPress={() => {
+          onClick();
+        }}>
+        <View style={styles.content}>
+          <Image style={styles.image} source={{uri: part.image}} />
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flex: 1, flexDirection: 'column'}}>
+              <View>
+                <Text style={styles.titleText}>{part.name}</Text>
+              </View>
+              <View>{detail}</View>
             </View>
-            <View>{detail}</View>
-          </View>
-          <View style={{flex: 0, flexDirection: 'column'}}>
-            <View>
-              <Text>{part.maker}</Text>
-            </View>
-            <View style={styles.price}>
-              <Text style={styles.priceText}>￦{part.price}</Text>
+            <View style={{flex: 0, flexDirection: 'column'}}>
+              <View>
+                <Text>{part.maker}</Text>
+              </View>
+              <View style={styles.price}>
+                <Text style={styles.priceText}>￦{part.price}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </TouchableHighlight>
-  );
+      </TouchableHighlight>
+    );
+  } else {
+    return <ActivityIndicator animating={true} />;
+  }
 }

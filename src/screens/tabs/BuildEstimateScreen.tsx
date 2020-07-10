@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import {useState, useEffect} from 'react';
 import {PART, PART_TYPE} from 'utils/parts';
 import {getParts} from 'utils/server';
-import {FlatList, TextInput, RefreshControl, View, Button} from 'react-native';
+import {FlatList, TextInput, RefreshControl, View} from 'react-native';
 import PartItem from 'components/PartItem';
 import {Picker} from '@react-native-community/picker';
 
@@ -16,14 +16,18 @@ export default function BuildEstimateScreen({navigation}) {
   const onPressReset = () => {};
   const onPressComplete = () => {};
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: '견적 제작',
-      headerRight: () => (
-        <Button onPress={() => {}} title="Info" color="#fff" />
-      ),
-    });
-  }, [navigation]);
+  navigation.setOptions({
+    headerTitle: (props) => (
+      <TextInput
+        {...props}
+        placeholder="Search"
+        placeholderTextColor="#FFFF"
+        style={{
+          fontSize: 24,
+        }}
+      />
+    ),
+  });
 
   const fetchParts = () => {
     getParts(part)
@@ -86,7 +90,7 @@ export default function BuildEstimateScreen({navigation}) {
       />
       <Picker
         mode="dropdown"
-        style={{width: 120, flex: 0}}
+        style={{flex: 0, height: 180}}
         selectedValue={part}
         onValueChange={(newValue) => {
           setPart(newValue);

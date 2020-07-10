@@ -11,17 +11,46 @@ type QuoteRequest = {
   intel_or_amd: boolean;
 };
 
-type QuoteResponse = {
+export type QuoteResponse = {
   name: string;
   tot_price: number;
   date: string;
+  cpu: number;
+  cpu_count: number;
+  mb: number;
+  mb_count: number;
+  ram: number;
+  ram_count: number;
+  vga: number;
+  vga_count: number;
+  ssd: number;
+  ssd_count: number;
+  hdd: number;
+  hdd_count: number;
+  case: number;
+  case_count: number;
+  psu: number;
+  psu_count: number;
 };
 
 export async function makeQuote(req: QuoteRequest) {
-  const res = await fetch(HOST + 'quotemaker/makequote/');
+  try {
+    const res = await fetch(HOST + 'quotemaker/makequote/', {
+      method: 'POST',
+      body: JSON.stringify(req),
+    });
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export async function getParts(part: PART_TYPE) {
-  const res = await fetch(HOST + 'quotemaker/parts/' + part);
+export async function getParts(type: PART_TYPE) {
+  const res = await fetch(`${HOST}quotemaker/parts/${type}/`);
+  return await res.json();
+}
+
+export async function getPartById(type: PART_TYPE, id: number) {
+  const res = await fetch(`${HOST}quotemaker/parts/${type}/${id}/`);
   return await res.json();
 }

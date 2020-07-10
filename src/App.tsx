@@ -4,14 +4,16 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import React, {useState, useEffect} from 'react';
-import SearchScreen from 'screens/SearchScreen';
-import QuickEstimateScreen from 'screens/QuickEstimateScreen';
-import BuildEstimateScreen from 'screens/BuildEstimateScreen';
-import LibraryScreen from 'screens/LibraryScreen';
+import SearchScreen from 'screens/tabs/SearchScreen';
+import QuickEstimateScreen from 'screens/tabs/QuickEstimateScreen';
+import BuildEstimateScreen from 'screens/tabs/BuildEstimateScreen';
+import LibraryScreen from 'screens/tabs/LibraryScreen';
+import DetailQuoteScreen from 'screens/DetailQuoteScreen';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DetailPartScreen from 'screens/DetailPartScreen';
 import {Appearance} from 'react-native';
+import {SCREEN} from 'utils/navigation';
 
 const Stack = createStackNavigator();
 
@@ -45,10 +47,10 @@ function TabScreen() {
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="검색" component={SearchScreen} />
-      <Tab.Screen name="빠른 견적" component={QuickEstimateScreen} />
-      <Tab.Screen name="견적 제작" component={BuildEstimateScreen} />
-      <Tab.Screen name="보관함" component={LibraryScreen} />
+      <Tab.Screen name={SCREEN.Search} component={SearchScreen} />
+      <Tab.Screen name={SCREEN.QuickEstimate} component={QuickEstimateScreen} />
+      <Tab.Screen name={SCREEN.BuildEstimate} component={BuildEstimateScreen} />
+      <Tab.Screen name={SCREEN.Library} component={LibraryScreen} />
     </Tab.Navigator>
   );
 }
@@ -67,8 +69,17 @@ export default function CustomPCApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="컴퓨터 견적" component={TabScreen} />
-        <Stack.Screen name="부품 세부 페이지" component={DetailPartScreen} />
+        <Stack.Screen
+          name="컴퓨터 견적"
+          component={TabScreen}
+          options={({route, navigation}) => ({
+            headerTitle: '컴퓨터 견적',
+            route: {route},
+            navigation: {navigation},
+          })}
+        />
+        <Stack.Screen name={SCREEN.DetailPart} component={DetailPartScreen} />
+        <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
