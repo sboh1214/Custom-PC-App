@@ -47,7 +47,7 @@ export default function PartItem({part, partType, onClick}: PartItemProps) {
       flexDirection: 'row',
       margin: 3,
     },
-    image: {flex: 0, width: 80, height: 80, resizeMode: 'contain'},
+    image: {width: 80, height: 80, resizeMode: 'contain'},
     titleText: {fontWeight: 'bold'},
     price: {flex: 1, flexDirection: 'column'},
     priceText: {fontSize: 16, fontStyle: 'italic', fontWeight: 'bold'},

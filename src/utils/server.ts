@@ -1,6 +1,8 @@
 import {PART_TYPE} from './parts';
+import {Platform} from 'react-native';
 
-const HOST = 'http://0.0.0.0:8000/';
+const HOST =
+  Platform.OS === 'android' ? 'http://10.0.2.2:8000/' : 'http://0.0.0.0:8000/';
 
 type QuoteRequest = {
   price: number;

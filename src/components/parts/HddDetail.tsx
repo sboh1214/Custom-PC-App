@@ -9,7 +9,7 @@ type HddDetailType = {
 export default function HddDetail({hdd}: HddDetailType) {
   return (
     <View>
-      <Text>{hdd.capacity}GB</Text>
+      <Text>{hdd.capacity}TB</Text>
       <Text>{hdd.rotspeed}RPM</Text>
     </View>
   );

@@ -1,8 +1,15 @@
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {useState, useEffect} from 'react';
 import {PART, PART_TYPE} from 'utils/parts';
 import {getParts} from 'utils/server';
-import {FlatList, TextInput, RefreshControl, View} from 'react-native';
+import {
+  FlatList,
+  TextInput,
+  RefreshControl,
+  View,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import PartItem from 'components/PartItem';
 import {Picker} from '@react-native-community/picker';
 
@@ -56,6 +63,10 @@ export default function BuildEstimateScreen({navigation}) {
     }
   }, [list, query]);
 
+  const styles = StyleSheet.create({
+    picker: {flex: 0, height: Platform.OS === 'android' ? 60 : 180},
+  });
+
   return (
     <View style={{flex: 1}}>
       <FlatList
@@ -90,7 +101,7 @@ export default function BuildEstimateScreen({navigation}) {
       />
       <Picker
         mode="dropdown"
-        style={{flex: 0, height: 180}}
+        style={styles.picker}
         selectedValue={part}
         onValueChange={(newValue) => {
           setPart(newValue);
