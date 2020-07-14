@@ -116,6 +116,6 @@ export default function PartItem({part, partType, onClick}: PartItemProps) {
       </TouchableHighlight>
     );
   } else {
-    return <ActivityIndicator animating={true} />;
+    return <Text>존재하지 않습니다</Text>;
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {useState, useEffect} from 'react';
 import {PART, PART_TYPE} from 'utils/parts';
 import {getParts} from 'utils/server';
@@ -9,11 +9,26 @@ import {
   View,
   StyleSheet,
   Platform,
+  Text,
 } from 'react-native';
 import PartItem from 'components/PartItem';
 import {Picker} from '@react-native-community/picker';
+import {useNavigation} from '@react-navigation/native';
+import {SCREEN} from 'utils/navigation';
 
-export default function BuildEstimateScreen({navigation}) {
+export default function BuildEstimateScreen() {
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.addListener('focus', setHeaderOptions);
+  }, [navigation]);
+
+  const setHeaderOptions = () => {
+    navigation?.dangerouslyGetParent()?.setOptions({
+      headerTitle: () => <Text>{SCREEN.BuildEstimate}</Text>,
+      headerRight: () => {},
+    });
+  };
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [part, setPart] = useState<PART_TYPE>(PART_TYPE.CPU);
   const [list, setList] = useState<Array<PART>>();
@@ -22,19 +37,6 @@ export default function BuildEstimateScreen({navigation}) {
 
   const onPressReset = () => {};
   const onPressComplete = () => {};
-
-  navigation.setOptions({
-    headerTitle: (props) => (
-      <TextInput
-        {...props}
-        placeholder="Search"
-        placeholderTextColor="#FFFF"
-        style={{
-          fontSize: 24,
-        }}
-      />
-    ),
-  });
 
   const fetchParts = () => {
     getParts(part)

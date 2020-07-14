@@ -12,7 +12,7 @@ import DetailQuoteScreen from 'screens/DetailQuoteScreen';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DetailPartScreen from 'screens/DetailPartScreen';
-import {Appearance} from 'react-native';
+import {Appearance, Text} from 'react-native';
 import {SCREEN} from 'utils/navigation';
 
 const Stack = createStackNavigator();
@@ -72,10 +72,8 @@ export default function CustomPCApp() {
         <Stack.Screen
           name="컴퓨터 견적"
           component={TabScreen}
-          options={({route, navigation}) => ({
-            headerTitle: '컴퓨터 견적',
-            route: {route},
-            navigation: {navigation},
+          options={({navigation, route}) => ({
+            headerTitle: (props) => <Text {...props}>Hello</Text>,
           })}
         />
         <Stack.Screen name={SCREEN.DetailPart} component={DetailPartScreen} />
