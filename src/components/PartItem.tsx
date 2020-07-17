@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableHighlight,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableHighlight} from 'react-native';
 import {
   PART,
   CPU,
@@ -31,10 +24,18 @@ import PsuDetail from './parts/PsuDetail';
 type PartItemProps = {
   part?: PART;
   partType: PART_TYPE;
+  style: {
+    textColor: string;
+  };
   onClick: () => any;
 };
 
-export default function PartItem({part, partType, onClick}: PartItemProps) {
+export default function PartItem({
+  part,
+  partType,
+  style,
+  onClick,
+}: PartItemProps) {
   const styles = StyleSheet.create({
     card: {
       margin: 6,
@@ -48,9 +49,15 @@ export default function PartItem({part, partType, onClick}: PartItemProps) {
       margin: 3,
     },
     image: {width: 80, height: 80, resizeMode: 'contain'},
-    titleText: {fontWeight: 'bold'},
+    titleText: {fontWeight: 'bold', color: style.textColor},
+    makerText: {color: style.textColor},
     price: {flex: 1, flexDirection: 'column'},
-    priceText: {fontSize: 16, fontStyle: 'italic', fontWeight: 'bold'},
+    priceText: {
+      fontSize: 16,
+      fontStyle: 'italic',
+      fontWeight: 'bold',
+      color: style.textColor,
+    },
     detail: {flex: 1, flexDirection: 'column'},
   });
 
@@ -105,7 +112,7 @@ export default function PartItem({part, partType, onClick}: PartItemProps) {
             </View>
             <View style={{flex: 0, flexDirection: 'column'}}>
               <View>
-                <Text>{part.maker}</Text>
+                <Text style={styles.makerText}>{part.maker}</Text>
               </View>
               <View style={styles.price}>
                 <Text style={styles.priceText}>￦{part.price}</Text>

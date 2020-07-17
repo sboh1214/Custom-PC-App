@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {useState, useEffect} from 'react';
 import {PART, PART_TYPE} from 'utils/parts';
 import {getParts} from 'utils/server';
@@ -9,34 +9,20 @@ import {
   View,
   StyleSheet,
   Platform,
-  Text,
 } from 'react-native';
 import PartItem from 'components/PartItem';
 import {Picker} from '@react-native-community/picker';
-import {useNavigation} from '@react-navigation/native';
 import {SCREEN} from 'utils/navigation';
+import {useThemeColors, Header} from 'utils/theme';
 
 export default function BuildEstimateScreen() {
-  const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.addListener('focus', setHeaderOptions);
-  }, [navigation]);
-
-  const setHeaderOptions = () => {
-    navigation?.dangerouslyGetParent()?.setOptions({
-      headerTitle: () => <Text>{SCREEN.BuildEstimate}</Text>,
-      headerRight: () => {},
-    });
-  };
+  const colors = useThemeColors();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [part, setPart] = useState<PART_TYPE>(PART_TYPE.CPU);
   const [list, setList] = useState<Array<PART>>();
   const [filteredList, setFilteredList] = useState<Array<PART>>();
   const [query, setQuery] = useState<string>('');
-
-  const onPressReset = () => {};
-  const onPressComplete = () => {};
 
   const fetchParts = () => {
     getParts(part)
@@ -66,11 +52,17 @@ export default function BuildEstimateScreen() {
   }, [list, query]);
 
   const styles = StyleSheet.create({
-    picker: {flex: 0, height: Platform.OS === 'android' ? 60 : 180},
+    picker: {
+      flex: 0,
+      height: Platform.OS === 'android' ? 60 : 180,
+      color: colors.text,
+      backgroundColor: colors.card,
+    },
   });
 
   return (
     <View style={{flex: 1}}>
+      <Header title={SCREEN.BuildEstimate} />
       <FlatList
         style={{flex: 1}}
         refreshControl={
@@ -98,7 +90,14 @@ export default function BuildEstimateScreen() {
           );
         }}
         renderItem={({item}) => {
-          return <PartItem part={item} partType={part} onClick={() => {}} />;
+          return (
+            <PartItem
+              part={item}
+              partType={part}
+              style={{textColor: colors.text}}
+              onClick={() => {}}
+            />
+          );
         }}
       />
       <Picker

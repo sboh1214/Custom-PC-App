@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useState} from 'react';
 import SegmentedControl from '@react-native-community/segmented-control';
 import {Text, View, Button} from 'react-native';
 import Slider from '@react-native-community/slider';
@@ -6,19 +6,10 @@ import {makeQuote, QuoteResponse} from 'utils/server';
 import {useNavigation} from '@react-navigation/native';
 import {addQuote} from 'utils/storage';
 import {SCREEN} from 'utils/navigation';
+import {Header} from 'utils/theme';
 
 export default function QuickEstimateScreen() {
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.addListener('focus', setHeaderOptions);
-  }, [navigation]);
-
-  const setHeaderOptions = () => {
-    navigation?.dangerouslyGetParent()?.setOptions({
-      headerTitle: () => <Text>{SCREEN.QuickEstimate}</Text>,
-      headerRight: () => {},
-    });
-  };
 
   const [budget, setBudget] = useState<number>(100);
   const [ssd, setSsd] = useState<number>(0);
@@ -29,6 +20,7 @@ export default function QuickEstimateScreen() {
 
   return (
     <View>
+      <Header title={SCREEN.QuickEstimate} />
       <Text>예산</Text>
       <Text>{budget}만원</Text>
       <Slider

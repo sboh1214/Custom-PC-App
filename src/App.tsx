@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import React, {useState, useEffect} from 'react';
+import React, {useContext} from 'react';
 import SearchScreen from 'screens/tabs/SearchScreen';
 import QuickEstimateScreen from 'screens/tabs/QuickEstimateScreen';
 import BuildEstimateScreen from 'screens/tabs/BuildEstimateScreen';
@@ -12,8 +12,8 @@ import DetailQuoteScreen from 'screens/DetailQuoteScreen';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DetailPartScreen from 'screens/DetailPartScreen';
-import {Appearance, Text} from 'react-native';
 import {SCREEN} from 'utils/navigation';
+import {ThemeContextProvider, ThemeContext} from 'utils/theme';
 
 const Stack = createStackNavigator();
 
@@ -57,28 +57,24 @@ function TabScreen() {
 
 const Tab = createBottomTabNavigator();
 
-export default function CustomPCApp() {
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  useEffect(() => {
-    setIsDarkTheme(Appearance.getColorScheme() === 'dark');
-    Appearance.addChangeListener((theme) => {
-      setIsDarkTheme(theme.colorScheme === 'dark');
-    });
-  }, []);
+function Navigator() {
+  const {theme} = useContext(ThemeContext);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <Stack.Navigator>
-        <Stack.Screen
-          name="컴퓨터 견적"
-          component={TabScreen}
-          options={({navigation, route}) => ({
-            headerTitle: (props) => <Text {...props}>Hello</Text>,
-          })}
-        />
+        <Stack.Screen name="컴퓨터 견적" component={TabScreen} />
         <Stack.Screen name={SCREEN.DetailPart} component={DetailPartScreen} />
         <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+export default function CustomPCApp() {
+  return (
+    <ThemeContextProvider>
+      <Navigator />
+    </ThemeContextProvider>
   );
 }

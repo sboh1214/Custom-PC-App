@@ -1,12 +1,31 @@
-import React, {useState, useEffect} from 'react';
-import {Text, ScrollView} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {Text, ScrollView, StyleSheet} from 'react-native';
+import {useRoute, useNavigation} from '@react-navigation/native';
 import PartItem from 'components/PartItem';
 import {PART_TYPE, CPU, RAM, VGA, HDD, SSD, MB, PSU, CASE} from 'utils/parts';
 import {QuoteResponse, getPartById} from 'utils/server';
 import {getQuoteById} from 'utils/storage';
+import useThemeColors, {useHeaderStyles} from 'utils/theme';
+import {SCREEN} from 'utils/navigation';
 
 export default function DetailQuoteScreen(): JSX.Element {
+  const navigation = useNavigation();
+  const headerStyles = useHeaderStyles();
+  const colors = useThemeColors();
+
+  useLayoutEffect(() => {
+    navigation.addListener('focus', setHeaderOptions);
+  }, [navigation]);
+
+  const setHeaderOptions = () => {
+    navigation?.dangerouslyGetParent()?.setOptions({
+      headerTitle: () => (
+        <Text style={headerStyles.title}>{SCREEN.DetailQuote}</Text>
+      ),
+      headerRight: () => {},
+    });
+  };
+
   const route = useRoute();
   const [quote, setQuote] = useState<QuoteResponse>();
 
@@ -54,25 +73,70 @@ export default function DetailQuoteScreen(): JSX.Element {
     }
   }, [quote]);
 
+  const styles = StyleSheet.create({partName: {color: colors.text}});
+
   return (
     <ScrollView style={{flex: 1}}>
       <Text>{route.params.id}</Text>
-      <Text>{`CPU : ${quote?.cpu_count} 개`}</Text>
-      <PartItem part={cpu} partType={PART_TYPE.CPU} onClick={() => {}} />
-      <Text>{`RAM : ${quote?.ram_count} 개`}</Text>
-      <PartItem part={ram} partType={PART_TYPE.RAM} onClick={() => {}} />
-      <Text>{`VGA : ${quote?.vga_count} 개`}</Text>
-      <PartItem part={vga} partType={PART_TYPE.VGA} onClick={() => {}} />
-      <Text>{`SSD : ${quote?.ssd_count} 개`}</Text>
-      <PartItem part={ssd} partType={PART_TYPE.SSD} onClick={() => {}} />
-      <Text>{`HDD : ${quote?.hdd_count} 개`}</Text>
-      <PartItem part={hdd} partType={PART_TYPE.HDD} onClick={() => {}} />
-      <Text>{`MainBoard : ${quote?.mb_count} 개`}</Text>
-      <PartItem part={mb} partType={PART_TYPE.MB} onClick={() => {}} />
-      <Text>{`Power Supply Unit : ${quote?.psu_count} 개`}</Text>
-      <PartItem part={psu} partType={PART_TYPE.PSU} onClick={() => {}} />
-      <Text>{`Case : ${quote?.case_count} 개`}</Text>
-      <PartItem part={caseItem} partType={PART_TYPE.CASE} onClick={() => {}} />
+      <Text style={styles.partName}>{`CPU : ${quote?.cpu_count} 개`}</Text>
+      <PartItem
+        part={cpu}
+        partType={PART_TYPE.CPU}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text style={styles.partName}>{`RAM : ${quote?.ram_count} 개`}</Text>
+      <PartItem
+        part={ram}
+        partType={PART_TYPE.RAM}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text style={styles.partName}>{`VGA : ${quote?.vga_count} 개`}</Text>
+      <PartItem
+        part={vga}
+        partType={PART_TYPE.VGA}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text style={styles.partName}>{`SSD : ${quote?.ssd_count} 개`}</Text>
+      <PartItem
+        part={ssd}
+        partType={PART_TYPE.SSD}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text style={styles.partName}>{`HDD : ${quote?.hdd_count} 개`}</Text>
+      <PartItem
+        part={hdd}
+        partType={PART_TYPE.HDD}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text style={styles.partName}>{`MainBoard : ${quote?.mb_count} 개`}</Text>
+      <PartItem
+        part={mb}
+        partType={PART_TYPE.MB}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text
+        style={
+          styles.partName
+        }>{`Power Supply Unit : ${quote?.psu_count} 개`}</Text>
+      <PartItem
+        part={psu}
+        partType={PART_TYPE.PSU}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
+      <Text style={styles.partName}>{`Case : ${quote?.case_count} 개`}</Text>
+      <PartItem
+        part={caseItem}
+        partType={PART_TYPE.CASE}
+        style={{textColor: colors.text}}
+        onClick={() => {}}
+      />
     </ScrollView>
   );
 }

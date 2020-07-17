@@ -1,23 +1,14 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {FlatList, View, RefreshControl, Button, Text} from 'react-native';
+import {FlatList, View, RefreshControl} from 'react-native';
 import {getAllQuote} from 'utils/storage';
 import QuoteItem from 'components/QuoteItem';
 import {useNavigation} from '@react-navigation/native';
 import {SCREEN} from 'utils/navigation';
+import {Header} from 'utils/theme';
 
 export default function LibraryScreen() {
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.addListener('focus', setHeaderOptions);
-  }, [navigation]);
-
-  const setHeaderOptions = () => {
-    navigation?.dangerouslyGetParent()?.setOptions({
-      headerTitle: () => <Text>{SCREEN.Library}</Text>,
-      headerRight: () => {},
-    });
-  };
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [list, setList] = useState<Array<any>>();
@@ -52,6 +43,7 @@ export default function LibraryScreen() {
 
   return (
     <View style={{flex: 1}}>
+      <Header title={SCREEN.Library} />
       <FlatList
         style={{flex: 1}}
         refreshControl={
@@ -67,7 +59,7 @@ export default function LibraryScreen() {
           return (
             <QuoteItem
               id={item.item}
-              onClick={() => {
+              click={() => {
                 navigation.navigate(SCREEN.DetailQuote, {id: item.item});
               }}
             />

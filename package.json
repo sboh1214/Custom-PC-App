@@ -1,6 +1,6 @@
 {
   "name": "custom-pc-app",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -14,7 +14,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'npm run version'"
+      "pre-commit": "npm run version"
     }
   },
   "dependencies": {
