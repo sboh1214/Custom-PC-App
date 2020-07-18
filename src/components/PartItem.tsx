@@ -24,8 +24,10 @@ import PsuDetail from './parts/PsuDetail';
 type PartItemProps = {
   part?: PART;
   partType: PART_TYPE;
+  isHighlight?: boolean;
   style: {
     textColor: string;
+    highlightColor?: string;
   };
   onClick: () => any;
 };
@@ -33,6 +35,7 @@ type PartItemProps = {
 export default function PartItem({
   part,
   partType,
+  isHighlight,
   style,
   onClick,
 }: PartItemProps) {
@@ -40,8 +43,9 @@ export default function PartItem({
     card: {
       margin: 6,
       borderRadius: 10,
-      borderColor: '#909090',
+      borderColor: isHighlight ? style.highlightColor : '#909090',
       borderWidth: 1,
+      backgroundColor: isHighlight ? style.highlightColor : '#00000000',
     },
     content: {
       flex: 1,
@@ -59,33 +63,36 @@ export default function PartItem({
       color: style.textColor,
     },
     detail: {flex: 1, flexDirection: 'column'},
+    detailText: {color: style.textColor},
   });
 
   let detail;
   switch (partType) {
     case PART_TYPE.CPU:
-      detail = <CpuDetail cpu={part as CPU} />;
+      detail = <CpuDetail textStyle={styles.detailText} cpu={part as CPU} />;
       break;
     case PART_TYPE.MB:
-      detail = <MbDetail mb={part as MB} />;
+      detail = <MbDetail textStyle={styles.detailText} mb={part as MB} />;
       break;
     case PART_TYPE.RAM:
-      detail = <RamDetail ram={part as RAM} />;
+      detail = <RamDetail textStyle={styles.detailText} ram={part as RAM} />;
       break;
     case PART_TYPE.VGA:
-      detail = <VgaDetail vga={part as VGA} />;
+      detail = <VgaDetail textStyle={styles.detailText} vga={part as VGA} />;
       break;
     case PART_TYPE.SSD:
-      detail = <SsdDetail ssd={part as SSD} />;
+      detail = <SsdDetail textStyle={styles.detailText} ssd={part as SSD} />;
       break;
     case PART_TYPE.HDD:
-      detail = <HddDetail hdd={part as HDD} />;
+      detail = <HddDetail textStyle={styles.detailText} hdd={part as HDD} />;
       break;
     case PART_TYPE.CASE:
-      detail = <CaseDetail caseItem={part as CASE} />;
+      detail = (
+        <CaseDetail textStyle={styles.detailText} caseItem={part as CASE} />
+      );
       break;
     case PART_TYPE.PSU:
-      detail = <PsuDetail psu={part as PSU} />;
+      detail = <PsuDetail textStyle={styles.detailText} psu={part as PSU} />;
       break;
     default:
       detail = <Text>Error</Text>;

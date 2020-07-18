@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {WebView} from 'react-native-webview';
-import {View, Button} from 'react-native';
+import {View} from 'react-native';
 import {SCREEN} from 'utils/navigation';
-import {Header} from 'utils/theme';
+import {Header, useThemeColors} from 'utils/theme';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type WebViewState = {
   url?: string;
@@ -13,6 +14,7 @@ type WebViewState = {
 };
 
 export default function SearchScreen(): JSX.Element {
+  const colors = useThemeColors();
   const [headerTitle, setHeaderTitle] = useState('검색');
 
   const [webViewState, setWebViewState] = useState<WebViewState>();
@@ -44,8 +46,18 @@ export default function SearchScreen(): JSX.Element {
         title={headerTitle ?? SCREEN.Search}
         left={
           <View style={{flexDirection: 'row'}}>
-            <Button title="Back" onPress={onPressBack} />
-            <Button title="Forward" onPress={onPressForward} />
+            <Icon.Button
+              name="arrow-back"
+              backgroundColor="rgba(0, 0, 0, 0)"
+              color={colors.primary}
+              onPress={onPressBack}
+            />
+            <Icon.Button
+              name="arrow-forward"
+              backgroundColor="rgba(0, 0, 0, 0)"
+              color={colors.primary}
+              onPress={onPressForward}
+            />
           </View>
         }
       />

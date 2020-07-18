@@ -1,12 +1,20 @@
 import React from 'react';
-import {TouchableHighlight, View, StyleSheet, Text} from 'react-native';
+import {
+  TouchableHighlight,
+  View,
+  StyleSheet,
+  Text,
+  StyleProp,
+  TextStyle,
+} from 'react-native';
 
 type QuoteItemProps = {
   id: string;
+  titleStyle: StyleProp<TextStyle>;
   click: () => any;
 };
 
-export default function QuoteItem({id, onClick}: QuoteItemProps) {
+export default function QuoteItem({id, titleStyle, click}: QuoteItemProps) {
   const styles = StyleSheet.create({
     card: {
       margin: 6,
@@ -27,10 +35,10 @@ export default function QuoteItem({id, onClick}: QuoteItemProps) {
       activeOpacity={0.6}
       underlayColor="#DDDDDD"
       onPress={() => {
-        onClick();
+        click();
       }}>
       <View style={styles.content}>
-        <Text>{id}</Text>
+        <Text style={titleStyle}>{id}</Text>
       </View>
     </TouchableHighlight>
   );

@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {FlatList, View, RefreshControl} from 'react-native';
+import {FlatList, View, RefreshControl, StyleSheet} from 'react-native';
 import {getAllQuote} from 'utils/storage';
 import QuoteItem from 'components/QuoteItem';
 import {useNavigation} from '@react-navigation/native';
 import {SCREEN} from 'utils/navigation';
-import {Header} from 'utils/theme';
+import {Header, useThemeColors} from 'utils/theme';
 
 export default function LibraryScreen() {
   const navigation = useNavigation();
+  const colors = useThemeColors();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [list, setList] = useState<Array<any>>();
@@ -41,6 +42,8 @@ export default function LibraryScreen() {
     storeData();
   }, [list]);
 
+  const styles = StyleSheet.create({titleStyle: {color: colors.text}});
+
   return (
     <View style={{flex: 1}}>
       <Header title={SCREEN.Library} />
@@ -59,6 +62,7 @@ export default function LibraryScreen() {
           return (
             <QuoteItem
               id={item.item}
+              titleStyle={styles.titleStyle}
               click={() => {
                 navigation.navigate(SCREEN.DetailQuote, {id: item.item});
               }}

@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import SegmentedControl from '@react-native-community/segmented-control';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {makeQuote, QuoteResponse} from 'utils/server';
 import {useNavigation} from '@react-navigation/native';
 import {addQuote} from 'utils/storage';
 import {SCREEN} from 'utils/navigation';
-import {Header} from 'utils/theme';
+import {Header, useThemeColors} from 'utils/theme';
 
 export default function QuickEstimateScreen() {
   const navigation = useNavigation();
+  const colors = useThemeColors();
 
   const [budget, setBudget] = useState<number>(100);
   const [ssd, setSsd] = useState<number>(0);
@@ -18,11 +19,16 @@ export default function QuickEstimateScreen() {
   const [ssdType, setSsdType] = useState<number>(0);
   const [cpu, setCpu] = useState<number>(0);
 
+  const styles = StyleSheet.create({
+    itemText: {color: colors.text},
+    budgetText: {color: colors.text},
+  });
+
   return (
     <View>
       <Header title={SCREEN.QuickEstimate} />
-      <Text>예산</Text>
-      <Text>{budget}만원</Text>
+      <Text style={styles.itemText}>예산</Text>
+      <Text style={styles.budgetText}>{budget}만원</Text>
       <Slider
         style={{width: 200, height: 40}}
         value={budget}
@@ -35,7 +41,7 @@ export default function QuickEstimateScreen() {
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
       />
-      <Text>SSD 용량</Text>
+      <Text style={styles.itemText}>SSD 용량</Text>
       <SegmentedControl
         values={['250', '500', '1000']}
         selectedIndex={ssd}
@@ -43,7 +49,7 @@ export default function QuickEstimateScreen() {
           setSsd(event.nativeEvent.selectedSegmentIndex);
         }}
       />
-      <Text>RAM 용량</Text>
+      <Text style={styles.itemText}>RAM 용량</Text>
       <SegmentedControl
         values={['자동', '8', '16', '32', '64']}
         selectedIndex={ram}
@@ -51,7 +57,7 @@ export default function QuickEstimateScreen() {
           setRam(event.nativeEvent.selectedSegmentIndex);
         }}
       />
-      <Text>HDD 용량</Text>
+      <Text style={styles.itemText}>HDD 용량</Text>
       <SegmentedControl
         values={['없음', '1', '2', '3', '4']}
         selectedIndex={hdd}
@@ -59,7 +65,7 @@ export default function QuickEstimateScreen() {
           setHdd(event.nativeEvent.selectedSegmentIndex);
         }}
       />
-      <Text>SSD 타입</Text>
+      <Text style={styles.itemText}>SSD 타입</Text>
       <SegmentedControl
         values={['NVME', 'SATA']}
         selectedIndex={ssdType}
@@ -67,7 +73,7 @@ export default function QuickEstimateScreen() {
           setSsdType(event.nativeEvent.selectedSegmentIndex);
         }}
       />
-      <Text>CPU 제조사</Text>
+      <Text style={styles.itemText}>CPU 제조사</Text>
       <SegmentedControl
         values={['Intel', 'AMD']}
         selectedIndex={cpu}

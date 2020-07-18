@@ -23,7 +23,7 @@ export type CASE = CASE_ONLY & PART_BASE;
 export type PSU = PSU_ONLY & PART_BASE;
 
 type PART_BASE = {
-  pk: number;
+  id: number;
   name: string;
   maker: string;
   url: string;

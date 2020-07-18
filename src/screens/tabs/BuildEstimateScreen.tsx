@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import {PART, PART_TYPE} from 'utils/parts';
-import {getParts} from 'utils/server';
+import {getParts, QuoteResponse} from 'utils/server';
 import {
   FlatList,
   TextInput,
@@ -9,13 +9,39 @@ import {
   View,
   StyleSheet,
   Platform,
+  Button,
 } from 'react-native';
 import PartItem from 'components/PartItem';
 import {Picker} from '@react-native-community/picker';
 import {SCREEN} from 'utils/navigation';
 import {useThemeColors, Header} from 'utils/theme';
+import {addQuote} from 'utils/storage';
+import {useNavigation} from '@react-navigation/native';
+
+const defaultQuote: QuoteResponse = {
+  name: new Date().toISOString(),
+  tot_price: 100,
+  date: new Date().toISOString(),
+  cpu: undefined,
+  cpu_count: 1,
+  mb: undefined,
+  mb_count: 1,
+  ram: undefined,
+  ram_count: 1,
+  vga: undefined,
+  vga_count: 1,
+  ssd: undefined,
+  ssd_count: 1,
+  hdd: undefined,
+  hdd_count: 1,
+  case: undefined,
+  case_count: 1,
+  psu: undefined,
+  psu_count: 1,
+};
 
 export default function BuildEstimateScreen() {
+  const navigation = useNavigation();
   const colors = useThemeColors();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,6 +49,7 @@ export default function BuildEstimateScreen() {
   const [list, setList] = useState<Array<PART>>();
   const [filteredList, setFilteredList] = useState<Array<PART>>();
   const [query, setQuery] = useState<string>('');
+  const [quote, setQuote] = useState<QuoteResponse>(defaultQuote);
 
   const fetchParts = () => {
     getParts(part)
@@ -51,6 +78,39 @@ export default function BuildEstimateScreen() {
     }
   }, [list, query]);
 
+  const addPart = (newPart: PART, newType: PART_TYPE) => {
+    const newQuote: QuoteResponse = {...quote};
+    newQuote[newType] = newPart.id;
+    console.log(newQuote);
+    setQuote(newQuote);
+    // switch (newType) {
+    //   case PART_TYPE.CPU:
+    //     setCpu(newPart.pk);
+    //     break;
+    //   case PART_TYPE.RAM:
+    //     setRam(newPart.pk);
+    //     break;
+    //   case PART_TYPE.VGA:
+    //     setVga(newPart.pk);
+    //     break;
+    //   case PART_TYPE.SSD:
+    //     setSsd(newPart.pk);
+    //     break;
+    //   case PART_TYPE.HDD:
+    //     setHdd(newPart.pk);
+    //     break;
+    //   case PART_TYPE.MB:
+    //     setMb(newPart.pk);
+    //     break;
+    //   case PART_TYPE.PSU:
+    //     setPsu(newPart.pk);
+    //     break;
+    //   case PART_TYPE.CASE:
+    //     setCaseItem(newPart.pk);
+    //     break;
+    // }
+  };
+
   const styles = StyleSheet.create({
     picker: {
       flex: 0,
@@ -58,7 +118,17 @@ export default function BuildEstimateScreen() {
       color: colors.text,
       backgroundColor: colors.card,
     },
+    pickerItem: {
+      color: colors.text,
+    },
   });
+
+  const buildQuote = () => {
+    console.log(quote);
+    addQuote(quote).then(() => {
+      navigation.navigate(SCREEN.DetailQuote, {id: quote.date});
+    });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -94,8 +164,11 @@ export default function BuildEstimateScreen() {
             <PartItem
               part={item}
               partType={part}
-              style={{textColor: colors.text}}
-              onClick={() => {}}
+              style={{textColor: colors.text, highlightColor: colors.primary}}
+              isHighlight={item.id === quote[part]}
+              onClick={() => {
+                addPart(item, part);
+              }}
             />
           );
         }}
@@ -103,6 +176,7 @@ export default function BuildEstimateScreen() {
       <Picker
         mode="dropdown"
         style={styles.picker}
+        itemStyle={styles.pickerItem}
         selectedValue={part}
         onValueChange={(newValue) => {
           setPart(newValue);
@@ -116,6 +190,7 @@ export default function BuildEstimateScreen() {
         <Picker.Item label="CASE" value="case" />
         <Picker.Item label="PSU" value="psu" />
       </Picker>
+      <Button title="Export" onPress={buildQuote} />
     </View>
   );
 }

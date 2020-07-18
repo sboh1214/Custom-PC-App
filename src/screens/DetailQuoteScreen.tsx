@@ -1,30 +1,15 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, ScrollView, StyleSheet} from 'react-native';
-import {useRoute, useNavigation} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import PartItem from 'components/PartItem';
 import {PART_TYPE, CPU, RAM, VGA, HDD, SSD, MB, PSU, CASE} from 'utils/parts';
 import {QuoteResponse, getPartById} from 'utils/server';
 import {getQuoteById} from 'utils/storage';
-import useThemeColors, {useHeaderStyles} from 'utils/theme';
+import {useThemeColors, Header} from 'utils/theme';
 import {SCREEN} from 'utils/navigation';
 
 export default function DetailQuoteScreen(): JSX.Element {
-  const navigation = useNavigation();
-  const headerStyles = useHeaderStyles();
   const colors = useThemeColors();
-
-  useLayoutEffect(() => {
-    navigation.addListener('focus', setHeaderOptions);
-  }, [navigation]);
-
-  const setHeaderOptions = () => {
-    navigation?.dangerouslyGetParent()?.setOptions({
-      headerTitle: () => (
-        <Text style={headerStyles.title}>{SCREEN.DetailQuote}</Text>
-      ),
-      headerRight: () => {},
-    });
-  };
 
   const route = useRoute();
   const [quote, setQuote] = useState<QuoteResponse>();
@@ -77,6 +62,7 @@ export default function DetailQuoteScreen(): JSX.Element {
 
   return (
     <ScrollView style={{flex: 1}}>
+      <Header title={SCREEN.DetailQuote} />
       <Text>{route.params.id}</Text>
       <Text style={styles.partName}>{`CPU : ${quote?.cpu_count} 개`}</Text>
       <PartItem

@@ -1,17 +1,18 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, TextStyle, StyleProp} from 'react-native';
 import {MB} from 'utils/parts';
 
 type MbDetailType = {
   mb: MB;
+  textStyle: StyleProp<TextStyle>;
 };
 
-export default function MbDetail({mb}: MbDetailType) {
+export default function MbDetail({mb, textStyle}: MbDetailType) {
   return (
     <View>
-      <Text>{mb.socket}</Text>
-      <Text>{mb.chipset}</Text>
-      <Text>{mb.form}</Text>
+      <Text style={textStyle}>{mb.socket}</Text>
+      <Text style={textStyle}>{mb.chipset}</Text>
+      <Text style={textStyle}>{mb.form}</Text>
     </View>
   );
 }

@@ -13,6 +13,7 @@ export async function addQuote(res: QuoteResponse) {
     STORAGE.LIBRARY,
     JSON.stringify([...library, res.date]),
   );
+  console.log(res);
   await AsyncStorage.setItem(res.date, JSON.stringify(res));
 }
 
