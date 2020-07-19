@@ -72,7 +72,8 @@ export default function DetailQuoteScreen(): JSX.Element {
   return (
     <ScrollView style={contentStyles.content}>
       <Header title={SCREEN.DetailQuote} />
-      <Text>{route.params.id}</Text>
+      <Text style={styles.partName}>{quote?.name}</Text>
+      <Text style={styles.partName}>{quote?.tot_price} ₩</Text>
       <Text style={styles.partName}>{`CPU : ${quote?.cpu_count} 개`}</Text>
       <PartItem
         part={cpu}

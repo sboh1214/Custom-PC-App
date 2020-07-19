@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import SegmentedControl from '@react-native-community/segmented-control';
-import {Text, View, Button, StyleSheet} from 'react-native';
+import {Text, View, Button, StyleSheet, Alert, TextInput} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {makeQuote, QuoteResponse} from 'utils/server';
 import {useNavigation} from '@react-navigation/native';
@@ -20,6 +20,8 @@ export default function QuickEstimateScreen() {
   const [ssdType, setSsdType] = useState<number>(0);
   const [cpu, setCpu] = useState<number>(0);
 
+  const [name, setName] = React.useState(new Date().toISOString());
+
   const styles = StyleSheet.create({
     itemText: {color: colors.text, fontSize: 16, marginLeft: 12, marginTop: 24},
     budgetText: {
@@ -31,6 +33,14 @@ export default function QuickEstimateScreen() {
     segment: {marginHorizontal: 12, marginVertical: 3},
     slider: {flex: 1},
     horizontalView: {flexDirection: 'row', marginHorizontal: 12},
+    input: {
+      marginHorizontal: 12,
+      marginVertical: 6,
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 12,
+    },
     button: {backgroundColor: '#00000000', margin: 12},
   });
 
@@ -98,6 +108,12 @@ export default function QuickEstimateScreen() {
           setCpu(event.nativeEvent.selectedSegmentIndex);
         }}
       />
+      <Text style={styles.itemText}>이름</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={(newName) => setName(newName)}
+        value={name}
+      />
       <Button
         title="견적 내기"
         onPress={() => {
@@ -159,12 +175,13 @@ export default function QuickEstimateScreen() {
           };
           makeQuote(req)
             .then((res: QuoteResponse) => {
+              res.name = name;
               addQuote(res).then(() => {
                 navigation.navigate(SCREEN.DetailQuote, {id: res.date});
               });
             })
             .catch(() => {
-              //console.log('error');
+              Alert.alert('견적을 생성할 수 없습니다');
             });
         }}
       />

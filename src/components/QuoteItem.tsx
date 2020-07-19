@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   TouchableHighlight,
   View,
@@ -7,6 +7,8 @@ import {
   StyleProp,
   TextStyle,
 } from 'react-native';
+import {QuoteResponse} from 'utils/server';
+import {getQuoteById} from 'utils/storage';
 
 type QuoteItemProps = {
   id: string;
@@ -29,6 +31,14 @@ export default function QuoteItem({id, titleStyle, click}: QuoteItemProps) {
     },
   });
 
+  const [quote, setQuote] = useState<QuoteResponse>();
+
+  useEffect(() => {
+    getQuoteById(id).then((newQuote) => {
+      setQuote(newQuote);
+    });
+  }, []);
+
   return (
     <TouchableHighlight
       style={styles.card}
@@ -38,7 +48,7 @@ export default function QuoteItem({id, titleStyle, click}: QuoteItemProps) {
         click();
       }}>
       <View style={styles.content}>
-        <Text style={titleStyle}>{id}</Text>
+        <Text style={titleStyle}>{quote?.name}</Text>
       </View>
     </TouchableHighlight>
   );

@@ -130,6 +130,10 @@ export default function PartItem({
       </TouchableHighlight>
     );
   } else {
-    return <Text>존재하지 않습니다</Text>;
+    return (
+      <TouchableHighlight style={styles.card}>
+        <Text style={{...styles.titleText, margin: 6}}>존재하지 않습니다</Text>
+      </TouchableHighlight>
+    );
   }
 }
