@@ -78,23 +78,8 @@ export function useContentStyles() {
 
   return StyleSheet.create({
     content: {
+      flex: 1,
       backgroundColor: appTheme.background,
-    },
-  });
-}
-
-export function useListStyles() {
-  const appTheme = useThemeColors();
-
-  return StyleSheet.create({
-    header: {
-      backgroundColor: appTheme.card,
-    },
-    body: {
-      backgroundColor: appTheme.background,
-    },
-    text: {
-      color: appTheme.text,
     },
   });
 }
@@ -131,7 +116,11 @@ export function Header({left, title, right}: HeaderProps) {
   const setHeaderOptions = () => {
     navigation?.dangerouslyGetParent()?.setOptions({
       headerLeft: () => left,
-      headerTitle: () => <Text style={styles.title}>{title}</Text>,
+      headerTitle: () => (
+        <Text numberOfLines={1} style={styles.title}>
+          {title}
+        </Text>
+      ),
       headerRight: () => right,
     });
   };

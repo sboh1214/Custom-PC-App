@@ -6,11 +6,12 @@ import {makeQuote, QuoteResponse} from 'utils/server';
 import {useNavigation} from '@react-navigation/native';
 import {addQuote} from 'utils/storage';
 import {SCREEN} from 'utils/navigation';
-import {Header, useThemeColors} from 'utils/theme';
+import {Header, useThemeColors, useContentStyles} from 'utils/theme';
 
 export default function QuickEstimateScreen() {
   const navigation = useNavigation();
   const colors = useThemeColors();
+  const contentStyles = useContentStyles();
 
   const [budget, setBudget] = useState<number>(100);
   const [ssd, setSsd] = useState<number>(0);
@@ -20,29 +21,41 @@ export default function QuickEstimateScreen() {
   const [cpu, setCpu] = useState<number>(0);
 
   const styles = StyleSheet.create({
-    itemText: {color: colors.text},
-    budgetText: {color: colors.text},
+    itemText: {color: colors.text, fontSize: 16, marginLeft: 12, marginTop: 24},
+    budgetText: {
+      color: colors.text,
+      fontSize: 16,
+      marginLeft: 6,
+      alignSelf: 'center',
+    },
+    segment: {marginHorizontal: 12, marginVertical: 3},
+    slider: {flex: 1},
+    horizontalView: {flexDirection: 'row', marginHorizontal: 12},
+    button: {backgroundColor: '#00000000', margin: 12},
   });
 
   return (
-    <View>
+    <View style={contentStyles.content}>
       <Header title={SCREEN.QuickEstimate} />
       <Text style={styles.itemText}>예산</Text>
-      <Text style={styles.budgetText}>{budget}만원</Text>
-      <Slider
-        style={{width: 200, height: 40}}
-        value={budget}
-        step={10}
-        onValueChange={(newBudget) => {
-          setBudget(newBudget);
-        }}
-        minimumValue={80}
-        maximumValue={300}
-        minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor="#000000"
-      />
+      <View style={styles.horizontalView}>
+        <Slider
+          style={styles.slider}
+          value={budget}
+          step={10}
+          onValueChange={(newBudget) => {
+            setBudget(newBudget);
+          }}
+          minimumValue={80}
+          maximumValue={300}
+          minimumTrackTintColor={colors.primary}
+          maximumTrackTintColor={colors.border}
+        />
+        <Text style={styles.budgetText}>{budget}만원</Text>
+      </View>
       <Text style={styles.itemText}>SSD 용량</Text>
       <SegmentedControl
+        style={styles.segment}
         values={['250', '500', '1000']}
         selectedIndex={ssd}
         onChange={(event) => {
@@ -51,6 +64,7 @@ export default function QuickEstimateScreen() {
       />
       <Text style={styles.itemText}>RAM 용량</Text>
       <SegmentedControl
+        style={styles.segment}
         values={['자동', '8', '16', '32', '64']}
         selectedIndex={ram}
         onChange={(event) => {
@@ -59,6 +73,7 @@ export default function QuickEstimateScreen() {
       />
       <Text style={styles.itemText}>HDD 용량</Text>
       <SegmentedControl
+        style={styles.segment}
         values={['없음', '1', '2', '3', '4']}
         selectedIndex={hdd}
         onChange={(event) => {
@@ -67,6 +82,7 @@ export default function QuickEstimateScreen() {
       />
       <Text style={styles.itemText}>SSD 타입</Text>
       <SegmentedControl
+        style={styles.segment}
         values={['NVME', 'SATA']}
         selectedIndex={ssdType}
         onChange={(event) => {
@@ -75,6 +91,7 @@ export default function QuickEstimateScreen() {
       />
       <Text style={styles.itemText}>CPU 제조사</Text>
       <SegmentedControl
+        style={styles.segment}
         values={['Intel', 'AMD']}
         selectedIndex={cpu}
         onChange={(event) => {

@@ -14,7 +14,7 @@ import {
 import PartItem from 'components/PartItem';
 import {Picker} from '@react-native-community/picker';
 import {SCREEN} from 'utils/navigation';
-import {useThemeColors, Header} from 'utils/theme';
+import {useThemeColors, Header, useContentStyles} from 'utils/theme';
 import {addQuote} from 'utils/storage';
 import {useNavigation} from '@react-navigation/native';
 
@@ -43,6 +43,7 @@ const defaultQuote: QuoteResponse = {
 export default function BuildEstimateScreen() {
   const navigation = useNavigation();
   const colors = useThemeColors();
+  const contentStyles = useContentStyles();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [part, setPart] = useState<PART_TYPE>(PART_TYPE.CPU);
@@ -83,35 +84,17 @@ export default function BuildEstimateScreen() {
     newQuote[newType] = newPart.id;
     console.log(newQuote);
     setQuote(newQuote);
-    // switch (newType) {
-    //   case PART_TYPE.CPU:
-    //     setCpu(newPart.pk);
-    //     break;
-    //   case PART_TYPE.RAM:
-    //     setRam(newPart.pk);
-    //     break;
-    //   case PART_TYPE.VGA:
-    //     setVga(newPart.pk);
-    //     break;
-    //   case PART_TYPE.SSD:
-    //     setSsd(newPart.pk);
-    //     break;
-    //   case PART_TYPE.HDD:
-    //     setHdd(newPart.pk);
-    //     break;
-    //   case PART_TYPE.MB:
-    //     setMb(newPart.pk);
-    //     break;
-    //   case PART_TYPE.PSU:
-    //     setPsu(newPart.pk);
-    //     break;
-    //   case PART_TYPE.CASE:
-    //     setCaseItem(newPart.pk);
-    //     break;
-    // }
   };
 
   const styles = StyleSheet.create({
+    input: {
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 24,
+      margin: 6,
+      paddingStart: 12,
+    },
     picker: {
       flex: 0,
       height: Platform.OS === 'android' ? 60 : 180,
@@ -131,10 +114,10 @@ export default function BuildEstimateScreen() {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={contentStyles.content}>
       <Header title={SCREEN.BuildEstimate} />
       <FlatList
-        style={{flex: 1}}
+        style={contentStyles.content}
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
@@ -147,12 +130,7 @@ export default function BuildEstimateScreen() {
         ListHeaderComponent={() => {
           return (
             <TextInput
-              style={{
-                height: 40,
-                borderColor: 'gray',
-                borderWidth: 1,
-                borderRadius: 24,
-              }}
+              style={styles.input}
               placeholder="Search"
               onChangeText={(text) => setQuery(text)}
               value={query}

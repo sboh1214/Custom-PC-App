@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {WebView} from 'react-native-webview';
 import {View} from 'react-native';
 import {SCREEN} from 'utils/navigation';
-import {Header, useThemeColors} from 'utils/theme';
+import {Header, useThemeColors, useContentStyles} from 'utils/theme';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type WebViewState = {
@@ -16,6 +16,7 @@ type WebViewState = {
 export default function SearchScreen(): JSX.Element {
   const colors = useThemeColors();
   const [headerTitle, setHeaderTitle] = useState('검색');
+  const contentStyles = useContentStyles();
 
   const [webViewState, setWebViewState] = useState<WebViewState>();
   let webView: any = null;
@@ -41,7 +42,7 @@ export default function SearchScreen(): JSX.Element {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={contentStyles.content}>
       <Header
         title={headerTitle ?? SCREEN.Search}
         left={

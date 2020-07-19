@@ -5,11 +5,12 @@ import PartItem from 'components/PartItem';
 import {PART_TYPE, CPU, RAM, VGA, HDD, SSD, MB, PSU, CASE} from 'utils/parts';
 import {QuoteResponse, getPartById} from 'utils/server';
 import {getQuoteById} from 'utils/storage';
-import {useThemeColors, Header} from 'utils/theme';
+import {useThemeColors, Header, useContentStyles} from 'utils/theme';
 import {SCREEN} from 'utils/navigation';
 
 export default function DetailQuoteScreen(): JSX.Element {
   const colors = useThemeColors();
+  const contentStyles = useContentStyles();
 
   const route = useRoute();
   const [quote, setQuote] = useState<QuoteResponse>();
@@ -58,10 +59,18 @@ export default function DetailQuoteScreen(): JSX.Element {
     }
   }, [quote]);
 
-  const styles = StyleSheet.create({partName: {color: colors.text}});
+  const styles = StyleSheet.create({
+    partName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginStart: 12,
+      marginTop: 6,
+    },
+  });
 
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView style={contentStyles.content}>
       <Header title={SCREEN.DetailQuote} />
       <Text>{route.params.id}</Text>
       <Text style={styles.partName}>{`CPU : ${quote?.cpu_count} 개`}</Text>

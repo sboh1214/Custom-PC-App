@@ -11,7 +11,6 @@ import LibraryScreen from 'screens/tabs/LibraryScreen';
 import DetailQuoteScreen from 'screens/DetailQuoteScreen';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import DetailPartScreen from 'screens/DetailPartScreen';
 import {SCREEN} from 'utils/navigation';
 import {ThemeContextProvider, ThemeContext} from 'utils/theme';
 
@@ -38,8 +37,6 @@ function TabScreen() {
           } else {
             iconName = 'library-books';
           }
-
-          // You can return any component that you like here!
           return <Icon name={iconName} size={size} color={color} />;
         },
       })}
@@ -64,7 +61,6 @@ function Navigator() {
     <NavigationContainer theme={theme}>
       <Stack.Navigator>
         <Stack.Screen name="컴퓨터 견적" component={TabScreen} />
-        <Stack.Screen name={SCREEN.DetailPart} component={DetailPartScreen} />
         <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
       </Stack.Navigator>
     </NavigationContainer>

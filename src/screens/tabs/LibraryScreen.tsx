@@ -5,11 +5,12 @@ import {getAllQuote} from 'utils/storage';
 import QuoteItem from 'components/QuoteItem';
 import {useNavigation} from '@react-navigation/native';
 import {SCREEN} from 'utils/navigation';
-import {Header, useThemeColors} from 'utils/theme';
+import {Header, useThemeColors, useContentStyles} from 'utils/theme';
 
 export default function LibraryScreen() {
   const navigation = useNavigation();
   const colors = useThemeColors();
+  const contentStyles = useContentStyles();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [list, setList] = useState<Array<any>>();
@@ -45,10 +46,10 @@ export default function LibraryScreen() {
   const styles = StyleSheet.create({titleStyle: {color: colors.text}});
 
   return (
-    <View style={{flex: 1}}>
+    <View style={contentStyles.content}>
       <Header title={SCREEN.Library} />
       <FlatList
-        style={{flex: 1}}
+        style={contentStyles.content}
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
