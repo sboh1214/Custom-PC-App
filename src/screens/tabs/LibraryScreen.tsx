@@ -46,7 +46,7 @@ export default function LibraryScreen() {
   const styles = StyleSheet.create({titleStyle: {color: colors.text}});
 
   return (
-    <View style={contentStyles.content}>
+    <>
       <Header title={SCREEN.Library} />
       <FlatList
         style={contentStyles.content}
@@ -71,6 +71,6 @@ export default function LibraryScreen() {
           );
         }}
       />
-    </View>
+    </>
   );
 }

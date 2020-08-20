@@ -38,15 +38,11 @@ export type QuoteResponse = {
 };
 
 export async function makeQuote(req: QuoteRequest) {
-  try {
-    const res = await fetch(HOST + 'quotemaker/makequote/', {
-      method: 'POST',
-      body: JSON.stringify(req),
-    });
-    return await res.json();
-  } catch (error) {
-    console.log(error);
-  }
+  const res = await fetch(HOST + 'quotemaker/makequote/', {
+    method: 'POST',
+    body: JSON.stringify(req),
+  });
+  return await res.json();
 }
 
 export async function getParts(type: PART_TYPE) {

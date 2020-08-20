@@ -5,8 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import React, {useContext} from 'react';
 import SearchScreen from 'screens/tabs/SearchScreen';
-import QuickEstimateScreen from 'screens/tabs/QuickEstimateScreen';
-import BuildEstimateScreen from 'screens/tabs/BuildEstimateScreen';
+import QuickQuoteScreen from 'screens/tabs/QuickQuoteScreen';
+import BuildQuoteScreen from 'screens/tabs/BuildQuoteScreen';
 import LibraryScreen from 'screens/tabs/LibraryScreen';
 import DetailQuoteScreen from 'screens/DetailQuoteScreen';
 
@@ -15,6 +15,7 @@ import {SCREEN} from 'utils/navigation';
 import {ThemeContextProvider, ThemeContext} from 'utils/theme';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 type TabBarIcon = {
   focused: boolean;
@@ -22,47 +23,71 @@ type TabBarIcon = {
   size: number;
 };
 
-function TabScreen() {
+function SearchTab() {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({color, size}: TabBarIcon) => {
-          let iconName;
-          if (route.name === '검색') {
-            iconName = 'search';
-          } else if (route.name === '빠른 견적') {
-            iconName = 'lightbulb-outline';
-          } else if (route.name === '견적 제작') {
-            iconName = 'format-list-bulleted';
-          } else {
-            iconName = 'library-books';
-          }
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-      }}>
-      <Tab.Screen name={SCREEN.Search} component={SearchScreen} />
-      <Tab.Screen name={SCREEN.QuickEstimate} component={QuickEstimateScreen} />
-      <Tab.Screen name={SCREEN.BuildEstimate} component={BuildEstimateScreen} />
-      <Tab.Screen name={SCREEN.Library} component={LibraryScreen} />
-    </Tab.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name={SCREEN.Search} component={SearchScreen} />
+    </Stack.Navigator>
   );
 }
 
-const Tab = createBottomTabNavigator();
+function QuickQuoteTab() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name={SCREEN.QuickQuote} component={QuickQuoteScreen} />
+      <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
+    </Stack.Navigator>
+  );
+}
 
-function Navigator() {
+function BuildQuoteTab() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name={SCREEN.QuickQuote} component={BuildQuoteScreen} />
+      <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function LibraryTab() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name={SCREEN.Library} component={LibraryScreen} />
+      <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function TabScreen() {
   const {theme} = useContext(ThemeContext);
 
   return (
     <NavigationContainer theme={theme}>
-      <Stack.Navigator>
-        <Stack.Screen name="컴퓨터 견적" component={TabScreen} />
-        <Stack.Screen name={SCREEN.DetailQuote} component={DetailQuoteScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({color, size}: TabBarIcon) => {
+            let iconName;
+            if (route.name === '검색') {
+              iconName = 'search';
+            } else if (route.name === '빠른 견적') {
+              iconName = 'lightbulb-outline';
+            } else if (route.name === '견적 제작') {
+              iconName = 'format-list-bulleted';
+            } else {
+              iconName = 'library-books';
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}>
+        <Tab.Screen name={SCREEN.Search} component={SearchTab} />
+        <Tab.Screen name={SCREEN.QuickQuote} component={QuickQuoteTab} />
+        <Tab.Screen name={SCREEN.BuildEstimate} component={BuildQuoteTab} />
+        <Tab.Screen name={SCREEN.Library} component={LibraryTab} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
@@ -70,7 +95,7 @@ function Navigator() {
 export default function CustomPCApp() {
   return (
     <ThemeContextProvider>
-      <Navigator />
+      <TabScreen />
     </ThemeContextProvider>
   );
 }

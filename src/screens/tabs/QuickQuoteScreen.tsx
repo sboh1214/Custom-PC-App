@@ -8,7 +8,7 @@ import {addQuote} from 'utils/storage';
 import {SCREEN} from 'utils/navigation';
 import {Header, useThemeColors, useContentStyles} from 'utils/theme';
 
-export default function QuickEstimateScreen() {
+export default function QuickQuoteScreen() {
   const navigation = useNavigation();
   const colors = useThemeColors();
   const contentStyles = useContentStyles();
@@ -45,8 +45,8 @@ export default function QuickEstimateScreen() {
   });
 
   return (
-    <View style={contentStyles.content}>
-      <Header title={SCREEN.QuickEstimate} />
+    <>
+      <Header title={SCREEN.QuickQuote} />
       <Text style={styles.itemText}>예산</Text>
       <View style={styles.horizontalView}>
         <Slider
@@ -185,6 +185,6 @@ export default function QuickEstimateScreen() {
             });
         }}
       />
-    </View>
+    </>
   );
 }

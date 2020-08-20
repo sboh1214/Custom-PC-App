@@ -40,7 +40,7 @@ const defaultQuote: QuoteResponse = {
   psu_count: 1,
 };
 
-export default function BuildEstimateScreen() {
+export default function BuildQuoteScreen() {
   const navigation = useNavigation();
   const colors = useThemeColors();
   const contentStyles = useContentStyles();
@@ -82,7 +82,6 @@ export default function BuildEstimateScreen() {
   const addPart = (newPart: PART, newType: PART_TYPE) => {
     const newQuote: QuoteResponse = {...quote};
     newQuote[newType] = newPart.id;
-    console.log(newQuote);
     setQuote(newQuote);
   };
 
@@ -107,15 +106,17 @@ export default function BuildEstimateScreen() {
   });
 
   const buildQuote = () => {
-    console.log(quote);
     addQuote(quote).then(() => {
       navigation.navigate(SCREEN.DetailQuote, {id: quote.date});
     });
   };
 
   return (
-    <View style={contentStyles.content}>
-      <Header title={SCREEN.BuildEstimate} />
+    <>
+      <Header
+        title={SCREEN.BuildEstimate}
+        right={<Button title="Export" onPress={buildQuote} />}
+      />
       <FlatList
         style={contentStyles.content}
         refreshControl={
@@ -168,7 +169,6 @@ export default function BuildEstimateScreen() {
         <Picker.Item label="CASE" value="case" />
         <Picker.Item label="PSU" value="psu" />
       </Picker>
-      <Button title="Export" onPress={buildQuote} />
-    </View>
+    </>
   );
 }

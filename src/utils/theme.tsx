@@ -8,14 +8,6 @@ import React, {
 } from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-type ThemeColors = {
-  primary: string;
-  background: string;
-  card: string;
-  text: string;
-  border: string;
-};
-
 export const LightTheme = {
   dark: false,
   colors: {
@@ -24,6 +16,7 @@ export const LightTheme = {
     card: 'rgb(255, 255, 255)',
     text: 'rgb(28, 28, 30)',
     border: 'rgb(224, 224, 224)',
+    notification: 'rgb(255, 59, 48)',
   },
 };
 
@@ -35,6 +28,7 @@ export const DarkTheme = {
     card: 'rgb(18, 18, 18)',
     text: 'rgb(229, 229, 231)',
     border: 'rgb(39, 39, 41)',
+    notification: 'rgb(255, 69, 58)',
   },
 };
 
@@ -104,17 +98,7 @@ export function Header({left, title, right}: HeaderProps) {
   });
 
   useLayoutEffect(() => {
-    navigation.addListener('focus', setHeaderOptions);
-  }, [navigation]);
-
-  useLayoutEffect(() => {
-    if (navigation.isFocused()) {
-      setHeaderOptions();
-    }
-  }, [isDark]);
-
-  const setHeaderOptions = () => {
-    navigation?.dangerouslyGetParent()?.setOptions({
+    navigation?.setOptions({
       headerLeft: () => left,
       headerTitle: () => (
         <Text numberOfLines={1} style={styles.title}>
@@ -123,6 +107,7 @@ export function Header({left, title, right}: HeaderProps) {
       ),
       headerRight: () => right,
     });
-  };
+  }, [navigation, isDark]);
+
   return null;
 }
